@@ -4,14 +4,14 @@
 #
 Name     : perl-BDB
 Version  : 1.92
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/BDB-1.92.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/BDB-1.92.tar.gz
 Summary  : unknown
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
-Requires: perl-BDB-lib = %{version}-%{release}
 Requires: perl-BDB-license = %{version}-%{release}
+Requires: perl-BDB-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : db-dev
 BuildRequires : perl(common::sense)
@@ -26,21 +26,11 @@ my $env = db_env_create;
 %package dev
 Summary: dev components for the perl-BDB package.
 Group: Development
-Requires: perl-BDB-lib = %{version}-%{release}
 Provides: perl-BDB-devel = %{version}-%{release}
 Requires: perl-BDB = %{version}-%{release}
 
 %description dev
 dev components for the perl-BDB package.
-
-
-%package lib
-Summary: lib components for the perl-BDB package.
-Group: Libraries
-Requires: perl-BDB-license = %{version}-%{release}
-
-%description lib
-lib components for the perl-BDB package.
 
 
 %package license
@@ -51,8 +41,18 @@ Group: Default
 license components for the perl-BDB package.
 
 
+%package perl
+Summary: perl components for the perl-BDB package.
+Group: Default
+Requires: perl-BDB = %{version}-%{release}
+
+%description perl
+perl components for the perl-BDB package.
+
+
 %prep
 %setup -q -n BDB-1.92
+cd %{_builddir}/BDB-1.92
 
 %build
 export http_proxy=http://127.0.0.1:9/
@@ -77,7 +77,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-BDB
-cp COPYING %{buildroot}/usr/share/package-licenses/perl-BDB/COPYING
+cp %{_builddir}/BDB-1.92/COPYING %{buildroot}/usr/share/package-licenses/perl-BDB/9a56f3b919dfc8fced3803e165a2e38de62646e5
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -90,16 +90,16 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/BDB.pm
 
 %files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/BDB.3
 
-%files lib
-%defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/auto/BDB/BDB.so
-
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-BDB/COPYING
+/usr/share/package-licenses/perl-BDB/9a56f3b919dfc8fced3803e165a2e38de62646e5
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/BDB.pm
+/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/BDB/BDB.so
