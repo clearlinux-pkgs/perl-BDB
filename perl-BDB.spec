@@ -4,7 +4,7 @@
 #
 Name     : perl-BDB
 Version  : 1.92
-Release  : 6
+Release  : 7
 URL      : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/BDB-1.92.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/BDB-1.92.tar.gz
 Summary  : unknown
